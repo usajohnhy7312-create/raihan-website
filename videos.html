@@ -100,13 +100,24 @@
       margin-bottom: 20px;
     }
 
-    /* Video Player Styling */
-    video {
-      width: 100%;
+    /* Streamtape Responsive Wrapper */
+    .video-wrapper {
+      position: relative;
+      padding-bottom: 56.25%; /* 16:9 aspect ratio */
+      height: 0;
+      overflow: hidden;
       border-radius: 16px;
       box-shadow: 0 8px 24px rgba(0, 0, 0, 0.4);
       background: #000;
-      display: block;
+    }
+
+    .video-wrapper iframe {
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      border: none;
     }
 
     .video-info {
@@ -140,7 +151,9 @@
   </div>
 
   <div class="video-container">
-    <video src="https://streamtape.com/v/QgBmzODvr3Sgep/mp4_sd.mp4" controls autoplay muted loop playsinline></video>
+    <div class="video-wrapper">
+      <iframe src="https://streamtape.com/e/QgBmzODvr3Sgep/" allowfullscreen allow="autoplay"></iframe>
+    </div>
     
     <div class="video-info">
       <h2 class="video-title">Raihan Special Clip</h2>
