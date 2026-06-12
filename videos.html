@@ -1,147 +1,154 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="hi">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>All Videos - StreamZone</title>
-    <style>
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-        }
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Raihan Rapido Wala - Videos</title>
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
 
-        body {
-            background-color: #0f0f0f;
-            color: #fff;
-            padding: 20px;
-        }
+    body {
+      font-family: Arial, Helvetica, sans-serif;
+      min-height: 100vh;
+      background: linear-gradient(135deg, #081224 0%, #10203a 45%, #14213d 100%);
+      color: #ffffff;
+      padding: 24px 16px;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+    }
 
-        header {
-            padding: 10px 0 30px 0;
-            border-bottom: 1px solid #2f2f2f;
-            margin-bottom: 30px;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-        }
+    .backgroundGlow {
+      position: fixed;
+      border-radius: 999px;
+      filter: blur(40px);
+      opacity: 0.25;
+      pointer-events: none;
+      z-index: 0;
+    }
 
-        header h1 {
-            color: #ff0000;
-            font-size: 24px;
-        }
+    .glowOne {
+      width: 300px;
+      height: 300px;
+      background: #2563eb;
+      top: -50px;
+      left: -100px;
+    }
 
-        .back-btn {
-            background-color: #333;
-            color: white;
-            border: none;
-            padding: 10px 15px;
-            border-radius: 5px;
-            text-decoration: none;
-            font-weight: bold;
-        }
+    .glowTwo {
+      width: 300px;
+      height: 300px;
+      background: #ff3333;
+      bottom: -50px;
+      right: -100px;
+    }
 
-        .video-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
-            gap: 25px;
-        }
+    .header-nav {
+      width: 100%;
+      max-width: 600px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 24px;
+      position: relative;
+      z-index: 1;
+    }
 
-        .grid-item {
-            background: #171717;
-            border-radius: 10px;
-            overflow: hidden;
-            cursor: pointer;
-            transition: transform 0.2s;
-            border: 1px solid #222;
-        }
+    .back-btn {
+      background: rgba(255, 255, 255, 0.12);
+      color: white;
+      border: none;
+      padding: 10px 16px;
+      border-radius: 12px;
+      font-weight: 700;
+      cursor: pointer;
+      text-decoration: none;
+      font-size: 0.9rem;
+      transition: all 0.2s ease;
+    }
 
-        .grid-item:hover {
-            transform: scale(1.03);
-        }
+    .back-btn:hover {
+      background: rgba(255, 255, 255, 0.2);
+      transform: translateX(-2px);
+    }
 
-        .grid-item video {
-            width: 100%;
-            height: 160px;
-            object-fit: cover;
-            background: #000;
-        }
+    .page-title {
+      font-size: 1.5rem;
+      font-weight: 900;
+      letter-spacing: 0.05em;
+      text-transform: uppercase;
+      background: linear-gradient(135deg, #ff3333, #ff6666);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+    }
 
-        .grid-info {
-            padding: 12px;
-        }
+    .video-container {
+      width: 100%;
+      max-width: 600px;
+      background: rgba(255, 255, 255, 0.06);
+      backdrop-filter: blur(16px);
+      border: 1px solid rgba(255, 255, 255, 0.12);
+      border-radius: 24px;
+      padding: 16px;
+      box-shadow: 0 20px 50px rgba(0, 0, 0, 0.3);
+      position: relative;
+      z-index: 1;
+      margin-bottom: 20px;
+    }
 
-        .grid-title {
-            font-size: 15px;
-            font-weight: 600;
-            line-height: 1.3;
-            margin-bottom: 5px;
-        }
+    video {
+      width: 100%;
+      border-radius: 16px;
+      box-shadow: 0 8px 24px rgba(0, 0, 0, 0.4);
+      background: #000;
+      display: block;
+    }
 
-        .grid-meta {
-            font-size: 12px;
-            color: #aaa;
-        }
-    </style>
+    .video-info {
+      margin-top: 14px;
+      padding: 4px;
+    }
+
+    .video-title {
+      font-size: 1.2rem;
+      font-weight: 800;
+      margin-bottom: 6px;
+      color: #ffffff;
+    }
+
+    .video-desc {
+      font-size: 0.9rem;
+      color: rgba(255, 255, 255, 0.7);
+      line-height: 1.4;
+    }
+  </style>
 </head>
 <body>
 
-    <header>
-        <h1>StreamZone - Videos</h1>
-        <a href="index.html" class="back-btn">← Home</a>
-    </header>
+  <div class="backgroundGlow glowOne"></div>
+  <div class="backgroundGlow glowTwo"></div>
 
-    <div class="video-grid">
-        
-        <div class="grid-item" onclick="playVideo(this)">
-            <video src="https://www.w3schools.com/html/mov_bbb.mp4" muted loop></video>
-            <div class="grid-info">
-                <p class="grid-title">Sample Video 1 (Click to Play Landscape)</p>
-                <p class="grid-meta">Admin • 10K views</p>
-            </div>
-        </div>
+  <!-- Top Navigation Header -->
+  <div class="header-nav">
+    <a href="index.html" class="back-btn">← Home</a>
+    <h1 class="page-title">Exclusive Video</h1>
+    <div style="width: 75px;"></div> <!-- Balance Spacer -->
+  </div>
 
-        <div class="grid-item" onclick="playVideo(this)">
-            <video src="https://www.w3schools.com/html/movie.mp4" muted loop></video>
-            <div class="grid-info">
-                <p class="grid-title">Sample Video 2 (Click to Play Landscape)</p>
-                <p class="grid-meta">Admin • 5K views</p>
-            </div>
-        </div>
-
+  <!-- Video Card -->
+  <div class="video-container">
+    <!-- Aapka Direct Convertered 45MB Video Link -->
+    <video src="https://docs.google.com/uc?export=download&id=1zNXO-LpDN0UFwv5v9cY4J-btBELyEV62" controls autoplay muted loop></video>
+    
+    <div class="video-info">
+      <h2 class="video-title">Raihan Special Clip</h2>
+      <p class="video-desc">Premium local ride operator streaming live layout updates.</p>
     </div>
+  </div>
 
-    <script>
-        function playVideo(element) {
-            var videoElement = element.querySelector('video');
-            videoElement.controls = true;
-            videoElement.muted = false;
-
-            if (videoElement.requestFullscreen) {
-                videoElement.requestFullscreen();
-            } else if (videoElement.webkitRequestFullscreen) {
-                videoElement.webkitRequestFullscreen();
-            } else if (videoElement.msRequestFullscreen) {
-                videoElement.msRequestFullscreen();
-            }
-
-            videoElement.play();
-        }
-
-        document.addEventListener('fullscreenchange', exitHandler);
-        document.addEventListener('webkitfullscreenchange', exitHandler);
-
-        function exitHandler() {
-            if (!document.fullscreenElement && !document.webkitIsFullScreen) {
-                var allVideos = document.querySelectorAll('video');
-                allVideos.forEach(function(video) {
-                    video.pause();
-                    video.controls = false;
-                    video.muted = true;
-                });
-            }
-        }
-    </script>
 </body>
 </html>
