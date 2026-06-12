@@ -1,0 +1,280 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>My Video Streaming Platform</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+
+        body {
+            background-color: #0f0f0f;
+            color: #fff;
+            padding: 20px;
+        }
+
+        header {
+            padding: 10px 0 30px 0;
+            border-bottom: 1px solid #2f2f2f;
+            margin-bottom: 20px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        header h1 {
+            color: #ff0000;
+            font-size: 24px;
+        }
+
+        .nav-btn {
+            background-color: #ff0000;
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            font-size: 16px;
+            font-weight: bold;
+            border-radius: 5px;
+            cursor: pointer;
+            text-decoration: none;
+            transition: background 0.3s;
+        }
+
+        .nav-btn:hover {
+            background-color: #cc0000;
+        }
+
+        .container {
+            display: flex;
+            flex-direction: column;
+            gap: 20px;
+        }
+
+        @media(min-width: 900px) {
+            .container {
+                flex-direction: row;
+            }
+            .main-content {
+                flex: 3;
+            }
+            .sidebar {
+                flex: 1;
+            }
+        }
+
+        .video-player-container {
+            background-color: #000;
+            border-radius: 12px;
+            overflow: hidden;
+            position: relative;
+            padding-top: 56.25%;
+        }
+
+        .video-player-container iframe, 
+        .video-player-container video {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            border: none;
+        }
+
+        .video-info {
+            margin-top: 15px;
+        }
+
+        .video-title {
+            font-size: 20px;
+            font-weight: 600;
+            margin-bottom: 8px;
+        }
+
+        .video-meta {
+            color: #aaa;
+            font-size: 14px;
+        }
+
+        .sidebar h2 {
+            font-size: 18px;
+            margin-bottom: 15px;
+            color: #fff;
+        }
+
+        .video-list {
+            display: flex;
+            flex-direction: column;
+            gap: 15px;
+        }
+
+        .video-item {
+            display: flex;
+            gap: 10px;
+            cursor: pointer;
+            text-decoration: none;
+            color: inherit;
+        }
+
+        .thumbnail {
+            width: 120px;
+            height: 70px;
+            background-color: #333;
+            border-radius: 8px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 12px;
+            color: #666;
+        }
+
+        .item-info {
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+        }
+
+        .item-title {
+            font-size: 14px;
+            font-weight: 500;
+            line-height: 1.2;
+            margin-bottom: 4px;
+        }
+
+        .item-author {
+            font-size: 12px;
+            color: #aaa;
+        }
+
+        .modal-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.9);
+            display: none;
+            justify-content: center;
+            align-items: center;
+            z-index: 1000;
+        }
+
+        .modal-box {
+            background: #1f1f1f;
+            padding: 30px;
+            border-radius: 12px;
+            text-align: center;
+            max-width: 400px;
+            width: 90%;
+            border: 1px solid #333;
+        }
+
+        .modal-box h3 {
+            font-size: 22px;
+            margin-bottom: 15px;
+            color: #ff0000;
+        }
+
+        .modal-box p {
+            font-size: 15px;
+            color: #ccc;
+            margin-bottom: 25px;
+        }
+
+        .modal-btns {
+            display: flex;
+            justify-content: space-around;
+            gap: 15px;
+        }
+
+        .btn-verify {
+            padding: 12px 25px;
+            font-size: 16px;
+            font-weight: bold;
+            border: none;
+            border-radius: 6px;
+            cursor: pointer;
+            width: 100%;
+        }
+
+        .btn-yes {
+            background-color: #28a745;
+            color: white;
+        }
+
+        .btn-no {
+            background-color: #dc3545;
+            color: white;
+        }
+    </style>
+</head>
+<body>
+
+    <header>
+        <h1>StreamZone</h1>
+        <button class="nav-btn" onclick="checkAgeVerification()">Video</button>
+    </header>
+
+    <div class="container">
+        <div class="main-content">
+            <div class="video-player-container">
+                <iframe src="https://www.youtube.com/embed/dQw4w9WgXcQ" allowfullscreen></iframe>
+            </div>
+            <div class="video-info">
+                <h2 class="video-title">Sample Video Title - Welcome to StreamZone</h2>
+                <p class="video-meta">1.2M views • June 2026</p>
+            </div>
+        </div>
+
+        <div class="sidebar">
+            <h2>Next Videos</h2>
+            <div class="video-list">
+                <a href="#" class="video-item">
+                    <div class="thumbnail">Thumbnail</div>
+                    <div class="item-info">
+                        <p class="item-title">How to build a web app easily</p>
+                        <p class="item-author">Tech Channel</p>
+                    </div>
+                </a>
+                <a href="#" class="video-item">
+                    <div class="thumbnail">Thumbnail</div>
+                    <div class="item-info">
+                        <p class="item-title">Amazing 4K Nature Video</p>
+                        <p class="item-author">NatureHub</p>
+                    </div>
+                </a>
+            </div>
+        </div>
+    </div>
+
+    <div class="modal-overlay" id="ageModal">
+        <div class="modal-box">
+            <h3>Age Verification</h3>
+            <p>Kya aapki umar 18 saal ya usse zyada hai? Is page ko dekhne ke liye verify karein.</p>
+            <div class="modal-btns">
+                <button class="btn-verify btn-yes" onclick="verifyAge(true)">Yes (18+)</button>
+                <button class="btn-verify btn-no" onclick="verifyAge(false)">No</button>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        function checkAgeVerification() {
+            document.getElementById('ageModal').style.display = 'flex';
+        }
+
+        function verifyAge(is18Plus) {
+            if (is18Plus) {
+                window.location.href = 'videos.html';
+            } else {
+                alert("Sorry, aap is page ko nahi dekh sakte.");
+                document.getElementById('ageModal').style.display = 'none';
+            }
+        }
+    </script>
+</body>
+</html>
