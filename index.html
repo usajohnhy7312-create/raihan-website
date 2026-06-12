@@ -1,280 +1,612 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="hi">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>My Video Streaming Platform</title>
-    <style>
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-        }
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Raihan Rapido Wala</title>
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
 
-        body {
-            background-color: #0f0f0f;
-            color: #fff;
-            padding: 20px;
-        }
+    body {
+      font-family: Arial, Helvetica, sans-serif;
+      min-height: 100vh;
+      background: linear-gradient(135deg, #081224 0%, #10203a 45%, #14213d 100%);
+      color: #ffffff;
+      overflow: hidden;
+      position: relative;
+      padding: 24px 16px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
 
-        header {
-            padding: 10px 0 30px 0;
-            border-bottom: 1px solid #2f2f2f;
-            margin-bottom: 20px;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-        }
+    /* Video Button Style */
+    .video-nav-container {
+      position: absolute;
+      top: 20px;
+      right: 20px;
+      z-index: 10;
+    }
 
-        header h1 {
-            color: #ff0000;
-            font-size: 24px;
-        }
+    .video-btn {
+      background: linear-gradient(135deg, #ff0000, #cc0000);
+      color: white;
+      border: none;
+      padding: 10px 20px;
+      font-size: 0.9rem;
+      font-weight: 800;
+      border-radius: 12px;
+      cursor: pointer;
+      box-shadow: 0 4px 15px rgba(255, 0, 0, 0.3);
+      transition: all 0.2s ease;
+    }
 
-        .nav-btn {
-            background-color: #ff0000;
-            color: white;
-            border: none;
-            padding: 10px 20px;
-            font-size: 16px;
-            font-weight: bold;
-            border-radius: 5px;
-            cursor: pointer;
-            text-decoration: none;
-            transition: background 0.3s;
-        }
+    .video-btn:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 6px 20px rgba(255, 0, 0, 0.5);
+    }
 
-        .nav-btn:hover {
-            background-color: #cc0000;
-        }
+    .backgroundGlow {
+      position: absolute;
+      border-radius: 999px;
+      filter: blur(40px);
+      opacity: 0.35;
+      pointer-events: none;
+    }
 
-        .container {
-            display: flex;
-            flex-direction: column;
-            gap: 20px;
-        }
+    .glowOne {
+      width: 220px;
+      height: 220px;
+      background: #2563eb;
+      top: 5%;
+      left: -60px;
+    }
 
-        @media(min-width: 900px) {
-            .container {
-                flex-direction: row;
-            }
-            .main-content {
-                flex: 3;
-            }
-            .sidebar {
-                flex: 1;
-            }
-        }
+    .glowTwo {
+      width: 240px;
+      height: 240px;
+      background: #22c55e;
+      bottom: 5%;
+      right: -80px;
+    }
 
-        .video-player-container {
-            background-color: #000;
-            border-radius: 12px;
-            overflow: hidden;
-            position: relative;
-            padding-top: 56.25%;
-        }
+    .screen {
+      width: 100%;
+      max-width: 460px;
+      position: relative;
+      z-index: 1;
+      display: none;
+    }
 
-        .video-player-container iframe, 
-        .video-player-container video {
-            position: absolute;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            border: none;
-        }
+    .screen.active {
+      display: block;
+    }
 
-        .video-info {
-            margin-top: 15px;
-        }
+    .heroScreen {
+      text-align: center;
+    }
 
-        .video-title {
-            font-size: 20px;
-            font-weight: 600;
-            margin-bottom: 8px;
-        }
+    .eyebrow {
+      margin-bottom: 10px;
+      letter-spacing: 0.14em;
+      text-transform: uppercase;
+      font-size: 0.76rem;
+      color: rgba(255, 255, 255, 0.75);
+    }
 
-        .video-meta {
-            color: #aaa;
-            font-size: 14px;
-        }
+    .topTitle {
+      margin-bottom: 18px;
+      font-size: 2.5rem;
+      line-height: 1;
+      font-weight: 900;
+      letter-spacing: 0.06em;
+      text-shadow: 0 10px 30px rgba(0, 0, 0, 0.35);
+    }
 
-        .sidebar h2 {
-            font-size: 18px;
-            margin-bottom: 15px;
-            color: #fff;
-        }
+    .heroCard, .panel {
+      background: rgba(255, 255, 255, 0.1);
+      backdrop-filter: blur(16px);
+      border: 1px solid rgba(255, 255, 255, 0.18);
+      border-radius: 24px;
+      padding: 22px;
+      box-shadow: 0 20px 60px rgba(0, 0, 0, 0.28);
+    }
 
-        .video-list {
-            display: flex;
-            flex-direction: column;
-            gap: 15px;
-        }
+    .avatarWrap {
+      display: flex;
+      align-items: center;
+      gap: 14px;
+      margin-bottom: 18px;
+    }
 
-        .video-item {
-            display: flex;
-            gap: 10px;
-            cursor: pointer;
-            text-decoration: none;
-            color: inherit;
-        }
+    .avatarImage {
+      width: 62px;
+      height: 62px;
+      border-radius: 18px;
+      object-fit: cover;
+      flex-shrink: 0;
+      border: 2px solid rgba(255, 255, 255, 0.18);
+    }
 
-        .thumbnail {
-            width: 120px;
-            height: 70px;
-            background-color: #333;
-            border-radius: 8px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-size: 12px;
-            color: #666;
-        }
+    .mutedText {
+      color: rgba(255, 255, 255, 0.75);
+      font-size: 0.95rem;
+      line-height: 1.5;
+    }
 
-        .item-info {
-            display: flex;
-            flex-direction: column;
-            justify-content: center;
-        }
+    .chipRow {
+      display: flex;
+      gap: 10px;
+      flex-wrap: wrap;
+      margin-bottom: 18px;
+    }
 
-        .item-title {
-            font-size: 14px;
-            font-weight: 500;
-            line-height: 1.2;
-            margin-bottom: 4px;
-        }
+    .chip {
+      border-radius: 999px;
+      padding: 8px 12px;
+      font-size: 0.86rem;
+      font-weight: 700;
+    }
 
-        .item-author {
-            font-size: 12px;
-            color: #aaa;
-        }
+    .success {
+      background: rgba(34, 197, 94, 0.18);
+      color: #bbf7d0;
+      border: 1px solid rgba(34, 197, 94, 0.35);
+    }
 
-        .modal-overlay {
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background: rgba(0, 0, 0, 0.9);
-            display: none;
-            justify-content: center;
-            align-items: center;
-            z-index: 1000;
-        }
+    .warning {
+      background: rgba(250, 204, 21, 0.14);
+      color: #fde68a;
+      border: 1px solid rgba(250, 204, 21, 0.35);
+    }
 
-        .modal-box {
-            background: #1f1f1f;
-            padding: 30px;
-            border-radius: 12px;
-            text-align: center;
-            max-width: 400px;
-            width: 90%;
-            border: 1px solid #333;
-        }
+    .statsGrid {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 12px;
+      margin-bottom: 18px;
+    }
 
-        .modal-box h3 {
-            font-size: 22px;
-            margin-bottom: 15px;
-            color: #ff0000;
-        }
+    .statBox, .infoItem, .availabilityCard, .timerCard {
+      background: rgba(255, 255, 255, 0.08);
+      border: 1px solid rgba(255, 255, 255, 0.12);
+      border-radius: 18px;
+      padding: 14px;
+    }
 
-        .modal-box p {
-            font-size: 15px;
-            color: #ccc;
-            margin-bottom: 25px;
-        }
+    .statLabel, .smallLabel {
+      font-size: 0.82rem;
+      color: rgba(255, 255, 255, 0.68);
+      margin-bottom: 6px;
+    }
 
-        .modal-btns {
-            display: flex;
-            justify-content: space-around;
-            gap: 15px;
-        }
+    .button {
+      width: 100%;
+      border: none;
+      border-radius: 16px;
+      padding: 14px 18px;
+      font-size: 1rem;
+      font-weight: 800;
+      cursor: pointer;
+      margin-top: 14px;
+      transition: all 0.2s ease;
+    }
 
-        .btn-verify {
-            padding: 12px 25px;
-            font-size: 16px;
-            font-weight: bold;
-            border: none;
-            border-radius: 6px;
-            cursor: pointer;
-            width: 100%;
-        }
+    .button:hover {
+      transform: translateY(-1px);
+      opacity: 0.96;
+    }
 
-        .btn-yes {
-            background-color: #28a745;
-            color: white;
-        }
+    .primary {
+      background: linear-gradient(135deg, #22c55e, #16a34a);
+      color: white;
+    }
 
-        .btn-no {
-            background-color: #dc3545;
-            color: white;
-        }
-    </style>
+    .panelHeader {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      margin-bottom: 18px;
+    }
+
+    .backButton {
+      background: rgba(255, 255, 255, 0.12);
+      color: white;
+      border: none;
+      padding: 10px 14px;
+      border-radius: 12px;
+      font-weight: 700;
+      cursor: pointer;
+    }
+
+    .liveBadge {
+      background: rgba(255, 255, 255, 0.12);
+      color: #e5e7eb;
+      border: 1px solid rgba(255, 255, 255, 0.12);
+      border-radius: 999px;
+      padding: 8px 12px;
+      font-size: 0.82rem;
+      font-weight: 700;
+    }
+
+    .online {
+      color: #bbf7d0;
+      background: rgba(34, 197, 94, 0.14);
+      border-color: rgba(34, 197, 94, 0.35);
+    }
+
+    .panelTitle {
+      font-size: 1.7rem;
+      font-weight: 900;
+      margin-bottom: 8px;
+    }
+
+    .panelSubtitle {
+      color: rgba(255, 255, 255, 0.74);
+      line-height: 1.6;
+      margin-bottom: 18px;
+      text-transform: lowercase;
+    }
+
+    .infoList {
+      display: grid;
+      gap: 12px;
+      margin-bottom: 18px;
+    }
+
+    .infoItem {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+
+    .infoItem span {
+      color: rgba(255, 255, 255, 0.72);
+    }
+
+    .bookingLine {
+      color: #86efac;
+      font-size: 1.1rem;
+      font-weight: 800;
+      margin-bottom: 18px;
+    }
+
+    .availabilityCard {
+      padding: 18px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 10px;
+    }
+
+    .signalDot {
+      width: 16px;
+      height: 16px;
+      border-radius: 50%;
+      background: #22c55e;
+      box-shadow: 0 0 0 8px rgba(34, 197, 94, 0.15);
+    }
+
+    .signalText {
+      font-size: 0.85rem;
+      color: #bbf7d0;
+      font-weight: 800;
+    }
+
+    .largeButton {
+      padding: 16px 18px;
+      font-size: 1.05rem;
+    }
+
+    .waitingPanel {
+      text-align: center;
+    }
+
+    .ring {
+      width: 86px;
+      height: 86px;
+      border: 8px solid rgba(255, 255, 255, 0.12);
+      border-top-color: #22c55e;
+      border-radius: 50%;
+      margin: 0 auto 18px;
+      animation: spin 1s linear infinite;
+    }
+
+    .timerNumber {
+      font-size: 2.4rem;
+      font-weight: 900;
+    }
+
+    .timerText {
+      display: block;
+      margin-top: 6px;
+      color: rgba(255, 255, 255, 0.72);
+    }
+
+    .progressBar {
+      height: 12px;
+      background: rgba(255, 255, 255, 0.12);
+      border-radius: 999px;
+      overflow: hidden;
+      margin: 10px 0;
+    }
+
+    .progressFill {
+      height: 100%;
+      background: linear-gradient(90deg, #22c55e, #38bdf8);
+      width: 0%;
+      transition: width 1s linear;
+    }
+
+    /* Age Verification Popup Styles - Neon Look matched with design */
+    .modal-overlay {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: rgba(5, 10, 20, 0.85);
+      backdrop-filter: blur(20px);
+      display: none;
+      justify-content: center;
+      align-items: center;
+      z-index: 2000;
+    }
+
+    .modal-box {
+      background: rgba(20, 30, 55, 0.9);
+      border: 1px solid rgba(255, 255, 255, 0.15);
+      padding: 30px;
+      border-radius: 24px;
+      text-align: center;
+      max-width: 400px;
+      width: 90%;
+      box-shadow: 0 25px 50px rgba(0, 0, 0, 0.5);
+    }
+
+    .modal-box h3 {
+      font-size: 1.6rem;
+      margin-bottom: 12px;
+      color: #ff3333;
+      font-weight: 900;
+      letter-spacing: 0.05em;
+    }
+
+    .modal-box p {
+      font-size: 0.95rem;
+      color: rgba(255, 255, 255, 0.8);
+      margin-bottom: 24px;
+      line-height: 1.5;
+    }
+
+    .modal-btns {
+      display: flex;
+      justify-content: space-around;
+      gap: 15px;
+    }
+
+    .btn-verify {
+      padding: 14px 20px;
+      font-size: 1rem;
+      font-weight: 800;
+      border: none;
+      border-radius: 16px;
+      cursor: pointer;
+      width: 100%;
+      transition: all 0.2s ease;
+    }
+
+    .btn-yes {
+      background: linear-gradient(135deg, #22c55e, #16a34a);
+      color: white;
+    }
+
+    .btn-no {
+      background: rgba(255, 255, 255, 0.12);
+      color: white;
+      border: 1px solid rgba(255, 255, 255, 0.1);
+    }
+
+    .btn-verify:hover {
+      transform: translateY(-2px);
+      opacity: 0.95;
+    }
+
+    @keyframes spin {
+      to { transform: rotate(360deg); }
+    }
+
+    @media (max-width: 480px) {
+      .topTitle { font-size: 2.15rem; }
+      .heroCard, .panel { padding: 18px; border-radius: 22px; }
+      .panelTitle { font-size: 1.45rem; }
+      .video-nav-container { top: 15px; right: 15px; }
+    }
+  </style>
 </head>
 <body>
 
-    <header>
-        <h1>StreamZone</h1>
-        <button class="nav-btn" onclick="checkAgeVerification()">Video</button>
-    </header>
+  <div class="video-nav-container">
+    <button class="video-btn" onclick="checkAgeVerification()">Video</button>
+  </div>
 
-    <div class="container">
-        <div class="main-content">
-            <div class="video-player-container">
-                <iframe src="https://www.youtube.com/embed/dQw4w9WgXcQ" allowfullscreen></iframe>
-            </div>
-            <div class="video-info">
-                <h2 class="video-title">Sample Video Title - Welcome to StreamZone</h2>
-                <p class="video-meta">1.2M views • June 2026</p>
-            </div>
+  <div class="backgroundGlow glowOne"></div>
+  <div class="backgroundGlow glowTwo"></div>
+
+  <div id="home" class="screen active">
+    <div class="heroScreen">
+      <p class="eyebrow">Trusted local ride booking</p>
+      <h1 class="topTitle">RAIHAN RAPIDO WALA</h1>
+
+      <div class="heroCard">
+        <div class="avatarWrap">
+          <img
+            class="avatarImage"
+            src="https://i.postimg.cc/2zJPSvvk/1780843865887.jpg"
+            alt="Raihan Rapido Wala"
+          >
+          <div>
+            <h2>Raihan Rapido Wala</h2>
+            <p class="mutedText">Fast pickup • Local service • Easy booking</p>
+          </div>
         </div>
 
-        <div class="sidebar">
-            <h2>Next Videos</h2>
-            <div class="video-list">
-                <a href="#" class="video-item">
-                    <div class="thumbnail">Thumbnail</div>
-                    <div class="item-info">
-                        <p class="item-title">How to build a web app easily</p>
-                        <p class="item-author">Tech Channel</p>
-                    </div>
-                </a>
-                <a href="#" class="video-item">
-                    <div class="thumbnail">Thumbnail</div>
-                    <div class="item-info">
-                        <p class="item-title">Amazing 4K Nature Video</p>
-                        <p class="item-author">NatureHub</p>
-                    </div>
-                </a>
-            </div>
+        <div class="chipRow">
+          <span class="chip success">Online Now</span>
+          <span class="chip warning">4.5 ⭐</span>
         </div>
+
+        <div class="statsGrid">
+          <div class="statBox">
+            <span class="statLabel">Service</span>
+            <strong>Rapido Ride</strong>
+          </div>
+          <div class="statBox">
+            <span class="statLabel">Booking</span>
+            <strong>Free</strong>
+          </div>
+        </div>
+
+        <button class="button primary" onclick="goTo('details')">Details Dekho</button>
+      </div>
     </div>
+  </div>
 
-    <div class="modal-overlay" id="ageModal">
-        <div class="modal-box">
-            <h3>Age Verification</h3>
-            <p>Kya aapki umar 18 saal ya usse zyada hai? Is page ko dekhne ke liye verify karein.</p>
-            <div class="modal-btns">
-                <button class="btn-verify btn-yes" onclick="verifyAge(true)">Yes (18+)</button>
-                <button class="btn-verify btn-no" onclick="verifyAge(false)">No</button>
-            </div>
+  <div id="details" class="screen">
+    <div class="panel">
+      <div class="panelHeader">
+        <button class="backButton" onclick="goTo('home')">← Back</button>
+        <span class="liveBadge">Profile Details</span>
+      </div>
+
+      <h2 class="panelTitle">Raihan Rapido Wala</h2>
+      <p class="panelSubtitle">Reliable local ride support with quick response and simple booking flow.</p>
+
+      <div class="infoList">
+        <div class="infoItem">
+          <span>Rating</span>
+          <strong>4.5 ⭐</strong>
         </div>
+        <div class="infoItem">
+          <span>Availability</span>
+          <strong>Active today</strong>
+        </div>
+        <div class="infoItem">
+          <span>Booking charge</span>
+          <strong>Free</strong>
+        </div>
+      </div>
+
+      <button class="button primary" onclick="goTo('booking')">Click Here</button>
     </div>
+  </div>
 
-    <script>
-        function checkAgeVerification() {
-            document.getElementById('ageModal').style.display = 'flex';
-        }
+  <div id="booking" class="screen">
+    <div class="panel bookingPanel">
+      <div class="panelHeader">
+        <button class="backButton" onclick="goTo('details')">← Back</button>
+        <span class="liveBadge online">Status: Online</span>
+      </div>
 
-        function verifyAge(is18Plus) {
-            if (is18Plus) {
-                window.location.href = 'videos.html';
-            } else {
-                alert("Sorry, aap is page ko nahi dekh sakte.");
-                document.getElementById('ageModal').style.display = 'none';
-            }
+      <h2 class="panelTitle">Only Raihan Rapido Wala Available</h2>
+      <p class="bookingLine">chut specialist</p>
+
+      <div class="availabilityCard">
+        <div>
+          <p class="smallLabel">Current Status</p>
+          <h3>Online</h3>
+        </div>
+        <div style="text-align:center;">
+          <div class="signalDot"></div>
+          <div class="signalText">LIVE</div>
+        </div>
+      </div>
+
+      <button class="button primary largeButton" onclick="goTo('waiting')">Book</button>
+    </div>
+  </div>
+
+  <div id="waiting" class="screen">
+    <div class="panel waitingPanel">
+      <div class="ring"></div>
+      <h2 class="panelTitle">wait</h2>
+      <p class="bookingLine">Wait Raihan Abhi Hela Rha Hai</p>
+
+      <div class="timerCard">
+        <span id="timerNumber" class="timerNumber">5</span>
+        <span class="timerText">seconds remaining</span>
+      </div>
+
+      <div class="progressBar">
+        <div id="progressFill" class="progressFill"></div>
+      </div>
+    </div>
+  </div>
+
+  <div class="modal-overlay" id="ageModal">
+    <div class="modal-box">
+      <h3>Age Verification</h3>
+      <p>Kya aapki umar 18 saal ya usse zyada hai? Is page ko dekhne ke liye verify karein.</p>
+      <div class="modal-btns">
+        <button class="btn-verify btn-yes" onclick="verifyAge(true)">Yes (18+)</button>
+        <button class="btn-verify btn-no" onclick="verifyAge(false)">No</button>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    let countdownInterval;
+    let countdown = 5;
+
+    function goTo(step) {
+      document.querySelectorAll('.screen').forEach(screen => {
+        screen.classList.remove('active');
+      });
+      document.getElementById(step).classList.add('active');
+
+      if (step === 'waiting') {
+        startCountdown();
+      }
+    }
+
+    function startCountdown() {
+      countdown = 5;
+      document.getElementById('timerNumber').textContent = countdown;
+      document.getElementById('progressFill').style.width = '0%';
+
+      if (countdownInterval) clearInterval(countdownInterval);
+
+      countdownInterval = setInterval(() => {
+        countdown--;
+        document.getElementById('timerNumber').textContent = countdown;
+        document.getElementById('progressFill').style.width = ((5 - countdown) / 5) * 100 + '%';
+
+        if (countdown <= 0) {
+          clearInterval(countdownInterval);
+          window.location.href = 'tel:+918597847390';
         }
-    </script>
+      }, 1000);
+    }
+
+    // Age Verification Code Logic
+    function checkAgeVerification() {
+      document.getElementById('ageModal').style.display = 'flex';
+    }
+
+    function verifyAge(is18Plus) {
+      if (is18Plus) {
+        // Agar user 18+ select karega toh naya page open hoga
+        window.location.href = 'videos.html';
+      } else {
+        // Agar 'No' select kiya toh alert aayega aur popup band hokar wapas home page par hi rakhega
+        alert("Sorry, aap is page ko nahi dekh sakte.");
+        document.getElementById('ageModal').style.display = 'none';
+      }
+    }
+  </script>
 </body>
 </html>
